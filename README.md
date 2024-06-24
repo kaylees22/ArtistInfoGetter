@@ -1,0 +1,1 @@
+If you want to catch up on what your fav artist has been up to, or look into a new artist you can use insert name to get a quick digest on all the latest info.
