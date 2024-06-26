@@ -2,7 +2,8 @@ import unittest
 from spotify import Spotify
 
 class TestArtistActivity(unittest.TestCase):
-    def __init__(self) -> None:
+    def __init__(self, method_name = 'runTest') -> None:
+        super().__init__(method_name)
         self.spotify = Spotify()
     
     def test_get_artist_id(self):

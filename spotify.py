@@ -43,12 +43,7 @@ class Spotify:
         data = response.json()
         
         sorted_releases = sorted(data['items'], key=lambda item: item['release_date'], reverse=True)[:5]
-        # for item in sorted_releases:
-        #     print(f'{item['name']}: {item['release_date']}, {item['album_type']}')
-
         releases = [[item['name'], item['release_date'], item['album_type']] for item in sorted_releases]
-        for thing in releases:
-            print(thing)
 
         return releases
 
