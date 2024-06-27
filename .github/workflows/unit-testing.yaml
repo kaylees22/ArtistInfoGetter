@@ -16,5 +16,5 @@ jobs:
         run: python -m pip install --upgrade pip pytest
 
       - name: Test with unittest
-        # working-directory: "project folder name"
-        # run: python3 -m unittest {test_file_name}
+        working-directory: "artistInfoGetter"
+        run: python3 -m unittest {test.py}
