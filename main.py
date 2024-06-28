@@ -1,61 +1,82 @@
 from spotify import Spotify
+from twitter import Twitter
 import pandas as pd
-import sqlalchemy as db
-
 
 def display(list_of_dicts):
-    
-    dataframe = pd.DataFrame.from_records(list_of_dicts) 
-
-    # engine connects to db
-    engine = db.create_engine('sqlite:///releases.db')
-    dataframe.to_sql('releasesTable', con=engine, if_exists='replace', index=False)
-
-
-    with engine.connect() as connection:
-        query_result = connection.execute(db.text("SELECT * FROM releasesTable;")).fetchall()
-        print(pd.DataFrame(query_result))
-    
-    return
-
+    """
+    Display the list of dictionaries in a tabular format using pandas
+    """
+    dataframe = pd.DataFrame.from_records(list_of_dicts)
+    print(dataframe)
 
 def main():
     spotify_api = Spotify()
-    print('\nWelcome to My Idol Update! Use this tool to see your favorite artist\'s recent releases and tweets\n')
+    twitter_api = Twitter()
+    print("\nWelcome to My Idol Update! Use this tool to see your favorite artist's recent releases and tweets\n")
 
-    quit = False
-    while not quit:
-        
-        artist = input("Please enter an artist name or q to quit: ")
-        if artist == 'q':
-            quit = True
+    while True:
+        artist = input("Please enter an artist name or q to quit: ").strip()
+        if artist.lower() == 'q':
             break
         
-        artist_id = spotify_api.get_artist_id(artist)
-
-        # prompt until success
-        while artist_id is None:
-            artist = input('Sorry. we couldn\'t find that artist. Please enter an artist name or q to quit: ')
-
-            if artist == 'q':
-                quit = True
-                break
-
-            artist_id = spotify_api.get_artist_id(artist)
-        if quit: break
+        artist_id, official_name = spotify_api.get_artist_id_name(artist)
         
-        official_name = spotify_api.get_artist_name(artist_id)
-        releases = spotify_api.get_artist_releases(artist_id)
+        # Prompt until success
+        while artist_id is None:
+            artist = input("Sorry, we couldn't find that artist. Please enter another artist name or q to quit: ").strip()
+            if artist.lower() == 'q':
+                break
+            artist_id, official_name = spotify_api.get_artist_id_name(artist)
+        if artist.lower() == 'q':
+            break
 
-        print(f"\n{official_name}'s recent releases")
-        separator = ''
-        print(separator.join(['-']*(len(official_name) + 18))) # logic to change len of separator based on name length
+        if artist_id:
+            try:
+                releases = spotify_api.get_artist_releases(artist_id)
+                if releases:
+                    print(f"\n{official_name}'s recent releases")
+                    separator = '-' * (len(official_name) + 18)
+                    print(separator)
+                    display(releases)
+                else:
+                    print(f"No recent releases found for {official_name}.")
+            except Exception as e:
+                print(f"Error occurred while fetching releases: {e}")
+        else:
+            print(f"Artist {artist} not found.")
 
-        display(releases)
-        print()
+
+        """
+        check if twitter handle in database
+            if not
+                find twitter handle using chatgpt
+                if chatgpt cant find it, prompt the user to enter it or skip
+
+            
+        return twitter handle
+        
+        """
+
+        # set to drake for testing
+        twitter_handle = "Drake"
+        # get tweets
+        if twitter_handle:
+            try:
+                tweets = twitter_api.get_tweets(twitter_handle)
+                if tweets:
+                    print(f"\n{official_name}'s recent tweets")
+                    separator = '-' * (len(official_name) + 15)
+                    print(separator)
+                    display(tweets)
+                else:
+                    print(f"No recent tweets found for {official_name}.")
+            except Exception as e:
+                print(f"Error occurred while fetching tweets: {e}")
+        else:
+                print(f"No Twitter handle provided for {official_name}.")
         
     print('Goodbye!\n')
-    
+    spotify_api.close()
 
 if __name__ == '__main__':
     main()
