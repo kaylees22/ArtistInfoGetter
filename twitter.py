@@ -23,7 +23,7 @@ class Twitter:
         result = self.cursor.fetchall()
         if result:
             # print("Found tweets in database.")
-            tweets = [{'tweet_id': row[0], 'creation_date': row[1], 'text': row[2]} for row in result]
+            tweets = [{ 'creation_date': row[1], 'text': row[2]} for row in result]
             return tweets
         
         # print("Tweets not found in database. Fetching from Twitter API...")
@@ -37,13 +37,14 @@ class Twitter:
             tweets = []
             for tweet in data.get('results',[]):
                 tweetData = {
-                    'tweet_id': tweet['tweet_id'],
+                    # 'tweet_id': tweet['tweet_id'],
                     'creation_date': tweet['creation_date'],
                     'text': tweet['text']
                 }
                 tweets.append(tweetData)
 
-                self.cursor.execute('INSERT OR IGNORE INTO twitter_tweets (twitter_handle, tweet_id, creation_date, text) VALUES (?, ?, ?, ?)', (twitter_handle, tweetData['tweet_id'], tweetData['creation_date'], tweetData['text']))
+                #self.cursor.execute('INSERT OR IGNORE INTO twitter_tweets (twitter_handle, tweet_id, creation_date, text) VALUES (?, ?, ?, ?)', (twitter_handle, tweetData['tweet_id'], tweetData['creation_date'], tweetData['text']))
+                self.cursor.execute('INSERT OR IGNORE INTO twitter_tweets (twitter_handle, creation_date, text) VALUES (?, ?, ?)', (twitter_handle, tweetData['creation_date'], tweetData['text']))
 
             self.conn.commit()
             print()

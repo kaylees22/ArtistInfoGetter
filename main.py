@@ -74,7 +74,7 @@ def main():
                     print(f"\n{official_name}'s recent tweets")
                     separator = '-' * (len(official_name) + 16)
                     print(separator)
-                    display(tweets)
+                    display(tweets[0:5])
                     print() 
                 else:
                     print(f"No recent tweets found for {official_name}.")
