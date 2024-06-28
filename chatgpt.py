@@ -2,7 +2,7 @@ import requests
 import openai
 from config import CHATGPT_KEY
 
-class chatGPT:
+class ChatGPT:
     def __init__(self):
         self.api = openai.OpenAI(api_key = CHATGPT_KEY)
         

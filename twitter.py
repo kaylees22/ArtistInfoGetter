@@ -56,10 +56,11 @@ class Twitter:
         self.conn.close()
         print("Closed database connection")
 
-# if __name__ == '__main__':
-#     twitter = Twitter()
-#     tweets = twitter.get_tweets('Drake')
-#     for tweet in tweets:
-#         print(f"{tweet['creation_date']}: {tweet['text']}")
-#         print("====================================")
-#     twitter.close()
+if __name__ == '__main__':
+    pass
+    #     twitter = Twitter()
+    #     tweets = twitter.get_tweets('Drake')
+    #     for tweet in tweets:
+    #         print(f"{tweet['creation_date']}: {tweet['text']}")
+    #         print("====================================")
+    #     twitter.close()

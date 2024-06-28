@@ -1,6 +1,7 @@
 from spotify import Spotify
 from twitter import Twitter
 import pandas as pd
+from chatgpt import ChatGPT
 
 def display(list_of_dicts):
     """
@@ -9,10 +10,17 @@ def display(list_of_dicts):
     dataframe = pd.DataFrame.from_records(list_of_dicts)
     print(dataframe)
 
+def get_twitter_username(artist_name):
+    chat = ChatGPT()
+    prompt = f'What is the twitter username for {artist_name}? Please output the username and nothing else'
+    response = chat.ask_chat(prompt) # in the format of: @twitter_username
+    return response[1:]
+
+
 def main():
     spotify_api = Spotify()
     twitter_api = Twitter()
-    print("\nWelcome to My Idol Update! Use this tool to see your favorite artist's recent releases and tweets\n")
+    print("\nWelcome to FanConnect! Use this tool to see your favorite artist's recent releases and tweets\n")
 
     while True:
         artist = input("Please enter an artist name or q to quit: ").strip()
@@ -57,8 +65,7 @@ def main():
         
         """
 
-        # set to drake for testing
-        twitter_handle = "Drake"
+        twitter_handle = get_twitter_username(official_name)
         # get tweets
         if twitter_handle:
             try:
