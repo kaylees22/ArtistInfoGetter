@@ -1,6 +1,4 @@
 import requests
-import json
-import os
 from config import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, AUTH_URL
 
 BASE_URL = 'https://api.spotify.com/v1/'
@@ -11,10 +9,10 @@ class Spotify:
 
     def __init__(self) -> None:
         self.auth_response = requests.post(AUTH_URL, {
-    'grant_type': 'client_credentials',
-    'client_id': SPOTIFY_CLIENT_ID,
-    'client_secret': SPOTIFY_CLIENT_SECRET,
-    })
+        'grant_type': 'client_credentials',
+        'client_id': SPOTIFY_CLIENT_ID,
+        'client_secret': SPOTIFY_CLIENT_SECRET,
+        })
         self.auth_response_data = self.auth_response.json()
         self.access_token = self.auth_response_data['access_token']
         self.headers = {'Authorization': 'Bearer {token}'.format(token=self.access_token)}

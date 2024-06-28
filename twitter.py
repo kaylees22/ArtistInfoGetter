@@ -1,8 +1,7 @@
 import requests
-TWITTER_TOKEN = "1806451321693949953-yPaqolLGrFysUaikghLcKIhnPajoxK"
-BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAE0yugEAAAAAn9t8mvLMuv5VvvPFetyk1JIJmpg%3DkNlhOdbOVykZn2rZkenYdMmqF4YpSwSfPUqYfopZfZSHI6mcYU"
-SECRET_TOKEN = "PXzXcZNyZU7tGPgEiqLTuXl5cC5WXQ95qOUcUZU9PmLyF"
+import tweepy
+import pandas as pd
+from config import TWITTER_KEY, TWITTER_BEARER, TWITTER_KEY_SECRET, TWITTER_TOKEN, TWITTER_TOKEN_SECRET
 
 class Twitter:
-
-    
+    pass
