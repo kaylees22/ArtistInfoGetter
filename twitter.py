@@ -16,17 +16,17 @@ class Twitter:
         """
         get 5 most recent tweets from given twitter handle
         """
-        print(f'Fetching tweets for {twitter_handle}')
+        # print(f'Fetching tweets for {twitter_handle}')
 
         # query database first
         self.cursor.execute('SELECT tweet_id, creation_date, text FROM twitter_tweets WHERE twitter_handle = ? ORDER BY creation_date DESC LIMIT 5', (twitter_handle,))
         result = self.cursor.fetchall()
         if result:
-            print("Found tweets in database.")
+            # print("Found tweets in database.")
             tweets = [{'tweet_id': row[0], 'creation_date': row[1], 'text': row[2]} for row in result]
             return tweets
         
-        print("Tweets not found in database. Fetching from Twitter API...")
+        # print("Tweets not found in database. Fetching from Twitter API...")
         # search Twitter API
         querystring = {"username": twitter_handle, "limit": "5", "include_replies": "false", "include_pinned": "false"}
         try:
@@ -44,9 +44,10 @@ class Twitter:
                 tweets.append(tweetData)
 
                 self.cursor.execute('INSERT OR IGNORE INTO twitter_tweets (twitter_handle, tweet_id, creation_date, text) VALUES (?, ?, ?, ?)', (twitter_handle, tweetData['tweet_id'], tweetData['creation_date'], tweetData['text']))
-            
+
             self.conn.commit()
-            print("Inserted tweets into database.")
+            print()
+            # print("Inserted tweets into database.")
             return tweets
         except Exception as e:
             print(f'Error occurred while fetching tweets: {e}')
@@ -54,7 +55,7 @@ class Twitter:
     
     def close(self):
         self.conn.close()
-        print("Closed database connection")
+        # print("Closed database connection")
 
 if __name__ == '__main__':
     pass

@@ -72,9 +72,10 @@ def main():
                 tweets = twitter_api.get_tweets(twitter_handle)
                 if tweets:
                     print(f"\n{official_name}'s recent tweets")
-                    separator = '-' * (len(official_name) + 15)
+                    separator = '-' * (len(official_name) + 16)
                     print(separator)
                     display(tweets)
+                    print() 
                 else:
                     print(f"No recent tweets found for {official_name}.")
             except Exception as e:
